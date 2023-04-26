@@ -9,9 +9,9 @@
 
 void _str_append(char *result, char *format, ...)
 {
-char *str;
+char *str, number[1024];
 va_list args;
-int index = 0, count;
+int index = 0;
 
 va_start(args, format);
 while (format[index] && result != NULL)
@@ -22,18 +22,14 @@ while (format[index] && result != NULL)
 		{
 			case 's':
 				str = va_arg(args, char *);
-				if (str != NULL)
-				{
-					count = 0;
-					while (str[count])
-					{
-						result[_strlen(result)] = str[count];
-						count++;
-					}
-				}
+				string_append(result, str);
 				index++;
 				break;
-
+			case 'd':
+				int_to_str(va_arg(args, int), number);
+				string_append(result, number);
+				index++;
+				break;
 			default:
 				break;
 		}
@@ -79,7 +75,8 @@ char *dir, int *status, char *fname)
 
 	if (program_name == NULL || program_name[0] == '\0')
 		return;
-	else if (access(program_name, X_OK) == 0)
+	else if (program_name[0] == '/' ||
+	(program_name[0] == '.' && program_name[1] == '/'))
 		_strcp(program_name, program_path);
 
 	dirp = opendir(dir);

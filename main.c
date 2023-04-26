@@ -4,7 +4,7 @@
 
 void program_path_finder(char **args, char *user_input,
 char *path, char *program_path, int *status, char *fname);
-void prepare_data(char *fname, int *status, INFO *info);
+void prepare_data(char *fname, int *status, INFO *info, int argc);
 void get_input(char *buffer, int *status, INFO *info);
 
 /**
@@ -22,7 +22,9 @@ void get_input(char *buffer, int *status, INFO *info)
 	ssize_t read;
 
 	if (isatty(STDIN_FILENO))
-		write(STDOUT_FILENO, "~$ ", 3);
+	{
+		_write(STDOUT_FILENO, "~$ ", status, info->fname);
+	}
 	fflush(stdout);
 	_clear_str(buffer);
 	read = getline(&line, &len, stdin);
@@ -35,7 +37,7 @@ void get_input(char *buffer, int *status, INFO *info)
 	{
 		_strcp(line, buffer);
 		if (!isatty(STDIN_FILENO))
-			write(STDOUT_FILENO, "~$ ", 3);
+			_write(STDOUT_FILENO, "~$ ", status, info->fname);
 	}
 	_free(NULL, line);
 
@@ -58,9 +60,10 @@ void get_input(char *buffer, int *status, INFO *info)
  * @fname: the program name
  * @status: my program run status
  * @info: my program information
+ * @argc: number of arguments passed in the program
  */
 
-void prepare_data(char *fname, int *status, INFO *info)
+void prepare_data(char *fname, int *status, INFO *info, int argc)
 {
 	int index = 0;
 
@@ -76,6 +79,7 @@ void prepare_data(char *fname, int *status, INFO *info)
 	getcwd(info->wd, sizeof(info->wd));
 	if (info->wd == NULL)
 		error(1, status, info->fname);
+	info->argc = argc;
 	cp_environ(info->envp, environ);
 }
 
@@ -121,6 +125,10 @@ char *path, char *program_path, int *status, char *fname)
 void shell(int status, int argc, char *user_input,
 INFO *info, char **argv, char **args, char *path, char *program_path)
 {
+	int error_counts = 1;
+	struct stat sb __attribute__((unused));
+
+	signal(SIGINT, sigint_handler);
 	while (status)
 	{
 		if (argc == 1)
@@ -132,21 +140,13 @@ INFO *info, char **argv, char **args, char *path, char *program_path)
 		}
 		if (user_input[0] == '\0' && isatty(STDIN_FILENO))
 			continue;
-		else if ((user_input[0] == '\0') && (!isatty(STDIN_FILENO) || !status))
+		else if ((user_input[0] == '\0' && !isatty(STDIN_FILENO)) || !status)
 			break;
 
 		program_path_finder(args, user_input, path, program_path,
 		&status, info->fname);
-		if (program_path[0] == '\0') /* check if program was not found */
-		{
-			_str_append(program_path, "%s: 1: %s: not found\n", argv[0], args[0]);
-			_write(STDERR_FILENO, program_path, &status, info->fname);
+		if (!program_checker(program_path, &error_counts, argv, &status, args, info))
 			continue;
-		} else if ((access(program_path, X_OK) != 0))
-		{
-			error(0, &status, info->fname);
-			continue;
-		}
 		args[0] = program_path;
 		execute_cmd(args, info->envp, &status, info->fname); /* execute program */
 		_clear_str(program_path);
@@ -172,7 +172,7 @@ int main(int argc, char **argv)
 		exit(0);
 	}
 
-	prepare_data(argv[0], &status, info);
+	prepare_data(argv[0], &status, info, argc);
 	user_input = allocate(1024 * sizeof(char), &status, info->fname);
 	program_path = allocate(1024 * sizeof(char), &status, info->fname);
 	path = allocate(1024 * sizeof(char), &status, info->fname);

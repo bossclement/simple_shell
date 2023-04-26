@@ -52,7 +52,7 @@ void _free(void **array, void *str)
 
 void execute_cmd(char **args, char **environs, int *status, char *fname)
 {
-	pid_t pid __attribute__((unused));
+	pid_t pid;
 	int exec_status;
 
 	pid = fork();
@@ -61,7 +61,7 @@ void execute_cmd(char **args, char **environs, int *status, char *fname)
 	else if (pid == 0)
 	{
 		exec_status = execve(args[0], args, environs);
-		error(1, status, fname);
+		error(0, status, fname);
 	}
 	else
 	{
