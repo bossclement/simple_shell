@@ -99,7 +99,9 @@ char *path, char *program_path, int *status, char *fname)
 	char *token;
 
 	get_arguments(args, user_input);
-	_strcp(getenv("PATH"), path);
+	_getenv("PATH", environ, path);
+	if (path[0] == '\0')
+		exit(EXIT_FAILURE);
 	token = strtok(path, ":");
 	_clear_str(program_path);
 	while (token != NULL && program_path[0] == '\0')

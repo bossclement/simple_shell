@@ -99,3 +99,38 @@ char **argv, int *status, char **args, INFO *info)
 	}
 	return (1);
 }
+
+/**
+ * _getenv - gets an environment variable
+ * @envir: absolute path of the command
+ * @envirs: file permission errors
+ * @dest: arguments passed in the program
+ */
+
+void _getenv(char *envir, char **envirs, char *dest)
+{
+	int envir_len = _strlen(envir), p = 0, c, i = 0;
+
+	if (envirs == NULL || dest == NULL)
+		return;
+	while (envirs[p])
+	{
+		for (c = 0; c < envir_len; c++)
+		{
+			if (envirs[p][c] != envir[c])
+				break;
+		}
+		if (c == envir_len)
+			break;
+		p++;
+	}
+	if (envirs[p] == NULL)
+		return;
+	c++;
+	while (envirs[p][c])
+	{
+		dest[i] = envirs[p][c];
+		i++;
+		c++;
+	}
+}

@@ -54,5 +54,6 @@ void sigint_handler(int sig);
 void string_append(char *dest, char *org);
 int program_checker(char *program_path, int *error_counts,
 char **argv, int *status, char **args, INFO *info);
+void _getenv(char *envir, char **envirs, char *dest);
 
 #endif
