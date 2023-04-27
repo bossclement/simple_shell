@@ -20,6 +20,7 @@
  * @fname: program name
  * @envp: environment variables
  * @argc: number of arguments passed in the program
+ * @exit_code: exit status of the program
 */
 
 struct APP_INFO
@@ -28,6 +29,7 @@ struct APP_INFO
 	char *fname;
 	char *envp[100];
 	int argc;
+	int exit_code;
 };
 typedef struct APP_INFO INFO;
 

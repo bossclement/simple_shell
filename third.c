@@ -86,6 +86,7 @@ char **argv, int *status, char **args, INFO *info)
 		argv[0], *error_counts, args[0]);
 		_write(STDERR_FILENO, program_path, status, info->fname);
 		(*error_counts)++;
+		info->exit_code = 127;
 		return (0);
 	} else if ((stat(program_path, &st) == 0 &&
 	S_ISDIR(st.st_mode)) || access(program_path, X_OK) != 0)
@@ -95,6 +96,7 @@ char **argv, int *status, char **args, INFO *info)
 		argv[0], *error_counts, args[0]);
 		_write(STDERR_FILENO, program_path, status, info->fname);
 		(*error_counts)++;
+		info->exit_code = 126;
 		return (0);
 	}
 	return (1);

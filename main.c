@@ -84,6 +84,7 @@ void prepare_data(char *fname, int *status, INFO *info, int argc)
 	if (info->wd == NULL)
 		error(1, status, info->fname);
 	info->argc = argc;
+	info->exit_code = 0;
 	cp_environ(info->envp, environ);
 }
 
@@ -183,5 +184,5 @@ int main(int argc, char **argv)
 	path = allocate(STRLEN * sizeof(char), &status, info->fname);
 	shell(status, argc, user_input, info, argv, args, path, program_path);
 	free_my_vars(program_path, user_input, path, info);
-	return (0);
+	return (info->exit_code);
 }
