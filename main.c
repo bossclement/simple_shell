@@ -38,6 +38,7 @@ void get_input(char *buffer, int *status, INFO *info)
 		_strcp(line, buffer);
 	}
 	_free(NULL, line);
+	check_input(buffer);
 
 	while (buffer[i])
 	{
@@ -141,8 +142,7 @@ INFO *info, char **argv, char **args, char *path, char *program_path)
 			status = 0;
 			cp_commands(argv, user_input);
 		}
-		if ((user_input[0] == '\0' && !isatty(STDIN_FILENO)) ||
-		(!status && !check_input(user_input)))
+		if ((user_input[0] == '\0' && !isatty(STDIN_FILENO)) || !status)
 			break;
 		else if (user_input[0] == '\0' && isatty(STDIN_FILENO))
 			continue;
