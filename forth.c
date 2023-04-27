@@ -23,3 +23,25 @@ size_t check_input(char *str)
 	}
 	return (_strlen(str) - 1);
 }
+
+/**
+ * is_path - check if a string is a path and exists
+ * @str: path
+ * Return: number
+ */
+
+int is_path(char *str)
+{
+	int index = 0;
+
+	if (str == NULL)
+		return (0);
+
+	while (str[index])
+	{
+		if (str[index] == '/' && access(str, F_OK) == 0)
+			return (1);
+		index++;
+	}
+	return (0);
+}

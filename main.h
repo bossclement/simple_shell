@@ -58,5 +58,6 @@ int program_checker(char *program_path, int *error_counts,
 char **argv, int *status, char **args, INFO *info);
 void _getenv(char *envir, char **envirs, char *dest);
 size_t check_input(char *str);
+int is_path(char *str);
 
 #endif
