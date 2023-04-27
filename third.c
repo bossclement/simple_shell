@@ -10,7 +10,7 @@
 char *int_to_str(long int num, char *dest)
 {
 	int remainder, index = 0;
-	char str_num[100];
+	char str_num[STRLEN];
 
 	while (num != 0)
 	{

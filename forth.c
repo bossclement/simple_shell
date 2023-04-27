@@ -8,7 +8,7 @@
 
 size_t check_input(char *str)
 {
-	char str_cp[1024], *token;
+	char str_cp[STRLEN], *token;
 
 	_strcp(str, str_cp);
 	_clear_str(str);

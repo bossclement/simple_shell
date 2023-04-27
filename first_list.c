@@ -9,7 +9,7 @@
 
 void _str_append(char *result, char *format, ...)
 {
-char *str, number[1024];
+char *str, number[STRLEN];
 va_list args;
 int index = 0;
 

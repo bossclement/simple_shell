@@ -12,6 +12,7 @@
 #include <sys/stat.h>
 #include <signal.h>
 #include <sys/types.h>
+#define STRLEN 10000
 
 /**
  * struct APP_INFO - stores information

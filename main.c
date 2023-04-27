@@ -177,9 +177,9 @@ int main(int argc, char **argv)
 	}
 
 	prepare_data(argv[0], &status, info, argc);
-	user_input = allocate(1024 * sizeof(char), &status, info->fname);
-	program_path = allocate(1024 * sizeof(char), &status, info->fname);
-	path = allocate(1024 * sizeof(char), &status, info->fname);
+	user_input = allocate(STRLEN * sizeof(char), &status, info->fname);
+	program_path = allocate(STRLEN * sizeof(char), &status, info->fname);
+	path = allocate(STRLEN * sizeof(char), &status, info->fname);
 	shell(status, argc, user_input, info, argv, args, path, program_path);
 	free_my_vars(program_path, user_input, path, info);
 	return (0);
