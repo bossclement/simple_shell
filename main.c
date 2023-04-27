@@ -135,6 +135,7 @@ INFO *info, char **argv, char **args, char *path, char *program_path)
 	signal(SIGINT, sigint_handler);
 	while (status)
 	{
+		info->exit_code = 0;
 		if (argc == 1)
 		{
 			_clear_str(user_input);
