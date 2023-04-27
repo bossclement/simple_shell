@@ -78,7 +78,8 @@ char **argv, int *status, char **args, INFO *info)
 {
 	struct stat st;
 
-	if (program_path[0] == '\0' ||
+	if (program_path[0] == '\0' || (program_path[0] != '.' ||
+	program_path[0] == '/') ||
 	access(program_path, F_OK) != 0) /* not found */
 	{
 		_clear_str(program_path);

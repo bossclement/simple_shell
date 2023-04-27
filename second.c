@@ -71,7 +71,7 @@ void execute_cmd(char **args, char **environs, int *status, INFO *info)
 		case 512:
 			info->exit_code = 2;
 			break;
-		
+
 		default:
 			break;
 	}
