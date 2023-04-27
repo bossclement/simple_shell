@@ -36,10 +36,6 @@ void get_input(char *buffer, int *status, INFO *info)
 	} else
 	{
 		_strcp(line, buffer);
-		if (!isatty(STDIN_FILENO) && check_input(buffer))
-		{
-			_write(STDOUT_FILENO, "~$ ", status, info->fname);
-		}
 	}
 	_free(NULL, line);
 
