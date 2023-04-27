@@ -170,7 +170,7 @@ INFO *info, char **argv, char **args, char *path, char *program_path)
 int main(int argc, char **argv)
 {
 	char *user_input, *args[MAX_ARGS], *program_path, *path;
-	int status = 1;
+	int status = 1, exit_code;
 	INFO *info = (INFO *) malloc(sizeof(INFO));
 
 	if (info == NULL)
@@ -184,6 +184,7 @@ int main(int argc, char **argv)
 	program_path = allocate(STRLEN * sizeof(char), &status, info->fname);
 	path = allocate(STRLEN * sizeof(char), &status, info->fname);
 	shell(status, argc, user_input, info, argv, args, path, program_path);
+	exit_code = info->exit_code;
 	free_my_vars(program_path, user_input, path, info);
-	return (info->exit_code);
+	return (exit_code);
 }
