@@ -109,6 +109,8 @@ char *path, char *program_path, int *status, char *fname)
 		find_path(args[0], program_path, token, status, fname);
 		token = strtok(NULL, ":");
 	}
+	if (program_path[0] == '\0')
+		_strcp(user_input, program_path);
 }
 
 /**
