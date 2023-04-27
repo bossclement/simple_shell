@@ -104,8 +104,6 @@ char *path, char *program_path, int *status, char *fname)
 
 	get_arguments(args, user_input);
 	_getenv("PATH=", environ, path);
-	if (path[0] == '\0')
-		exit(EXIT_FAILURE);
 	token = strtok(path, ":");
 	_clear_str(program_path);
 	while (token != NULL && program_path[0] == '\0')
