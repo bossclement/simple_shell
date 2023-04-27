@@ -87,8 +87,8 @@ char **argv, int *status, char **args, INFO *info)
 		_write(STDERR_FILENO, program_path, status, info->fname);
 		(*error_counts)++;
 		return (0);
-	} else if (stat(program_path, &st) == 0 &&
-	S_ISDIR(st.st_mode)) /* chech folder */
+	} else if ((stat(program_path, &st) == 0 &&
+	S_ISDIR(st.st_mode)) || access(program_path, X_OK) != 0)
 	{
 		_clear_str(program_path);
 		_str_append(program_path, "%s: %d: %s: Permission denied\n",

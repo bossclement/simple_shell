@@ -26,18 +26,20 @@ void get_input(char *buffer, int *status, INFO *info)
 		_write(STDOUT_FILENO, "~$ ", status, info->fname);
 	}
 	fflush(stdout);
-	_clear_str(buffer);
 	read = getline(&line, &len, stdin);
+	_clear_str(buffer);
 	if (read <= 0)
 	{
 		if (isatty(STDIN_FILENO))
 			_write(STDOUT_FILENO, "\n", status, info->fname);
-		_strcp("exit", buffer);
+		_clear_str(buffer);
 	} else
 	{
 		_strcp(line, buffer);
-		if (!isatty(STDIN_FILENO))
+		if (!isatty(STDIN_FILENO) && check_input(buffer))
+		{
 			_write(STDOUT_FILENO, "~$ ", status, info->fname);
+		}
 	}
 	_free(NULL, line);
 
@@ -49,8 +51,9 @@ void get_input(char *buffer, int *status, INFO *info)
 	}
 
 	buffer[_strlen(buffer)] = '\0';
-	if (_strcmp(buffer, "exit"))
+	if (buffer[0] == '\0' || buffer[0] == ' ' || _strcmp("exit", buffer))
 	{
+		_clear_str(buffer);
 		*status = 0;
 	}
 }
@@ -70,8 +73,8 @@ void prepare_data(char *fname, int *status, INFO *info, int argc)
 	/* Set my App information */
 	while (environ[index]) /* allocates memory for my environment variables */
 	{
-		info->envp[index] = allocate(strlen(environ[index]) + 1, status, fname);
-		strcpy(info->envp[index], environ[index]);
+		info->envp[index] = allocate(_strlen(environ[index]) + 1, status, fname);
+		_strcp(environ[index], info->envp[index]);
 		index++;
 	}
 	info->envp[index] = NULL;
@@ -128,22 +131,25 @@ void shell(int status, int argc, char *user_input,
 INFO *info, char **argv, char **args, char *path, char *program_path)
 {
 	int error_counts = 1;
-	struct stat sb __attribute__((unused));
 
 	signal(SIGINT, sigint_handler);
 	while (status)
 	{
 		if (argc == 1)
+		{
+			_clear_str(user_input);
 			get_input(user_input, &status, info);
+		}
 		else
 		{
 			status = 0;
 			cp_commands(argv, user_input);
 		}
-		if (user_input[0] == '\0' && isatty(STDIN_FILENO))
-			continue;
-		else if ((user_input[0] == '\0' && !isatty(STDIN_FILENO)) || !status)
+		if ((user_input[0] == '\0' && !isatty(STDIN_FILENO)) ||
+		(!status && !check_input(user_input)))
 			break;
+		else if (user_input[0] == '\0' && isatty(STDIN_FILENO))
+			continue;
 
 		program_path_finder(args, user_input, path, program_path,
 		&status, info->fname);

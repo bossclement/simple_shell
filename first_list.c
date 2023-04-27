@@ -109,7 +109,7 @@ void cp_commands(char **argv, char *dest)
 {
 	int i = 1;
 
-	while (argv[i])
+	while (argv[i] != NULL)
 	{
 		_str_append(dest, "%s", argv[i]);
 		i++;

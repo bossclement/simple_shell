@@ -30,7 +30,7 @@ size_t _strlen(char *str)
 
 	if (str == NULL)
 		return (0);
-	while (str[length])
+	while (str[length] != '\0')
 		length++;
 	return (length);
 }
