@@ -50,7 +50,7 @@ void _write(int fd, char *buffer, int *status, char *fname);
 void _free(void **array, void *str);
 void free_my_vars(char *program_path,
 char *user_input, char *path, INFO *info);
-void execute_cmd(char **args, char **environs, int *status, char *fname);
+void execute_cmd(char **args, char **environs, int *status, INFO *info);
 char *int_to_str(long int num, char *dest);
 void sigint_handler(int sig);
 void string_append(char *dest, char *org);

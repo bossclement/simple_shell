@@ -47,25 +47,33 @@ void _free(void **array, void *str)
  * @args: file descriptor
  * @environs: environment variables
  * @status: checks if my shell should run
- * @fname: program name
+ * @info: program information
  */
 
-void execute_cmd(char **args, char **environs, int *status, char *fname)
+void execute_cmd(char **args, char **environs, int *status, INFO *info)
 {
 	pid_t pid;
 	int exec_status;
 
 	pid = fork();
 	if (pid < 0)
-		error(1, status, fname);
+		error(1, status, info->fname);
 	else if (pid == 0)
 	{
 		exec_status = execve(args[0], args, environs);
-		error(0, status, fname);
 	}
 	else
 	{
 		waitpid(pid, &exec_status, 0);
+	}
+	switch (exec_status) /* enterpret exit codes */
+	{
+		case 512:
+			info->exit_code = 2;
+			break;
+		
+		default:
+			break;
 	}
 }
 
