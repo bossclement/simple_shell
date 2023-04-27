@@ -126,7 +126,6 @@ void _getenv(char *envir, char **envirs, char *dest)
 	}
 	if (envirs[p] == NULL)
 		return;
-	c++;
 	while (envirs[p][c])
 	{
 		dest[i] = envirs[p][c];
