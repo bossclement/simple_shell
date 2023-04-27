@@ -40,19 +40,23 @@ void get_input(char *buffer, int *status, INFO *info)
 	_free(NULL, line);
 	check_input(buffer);
 
-	while (buffer[i])
+	if (!_strcmp("\n", buffer))
 	{
-		if (buffer[i] == '\n')
-			buffer[i] = '\0';
-		i++;
+		while (buffer[i]) /* Remove new line */
+		{
+			if (buffer[i] == '\n')
+				buffer[i] = '\0';
+			i++;
+		}
+		buffer[_strlen(buffer)] = '\0';
 	}
 
-	buffer[_strlen(buffer)] = '\0';
 	if (buffer[0] == '\0' || buffer[0] == ' ' || _strcmp("exit", buffer))
 	{
 		_clear_str(buffer);
 		*status = 0;
-	}
+	} else if (_strcmp("\n", buffer))
+		_clear_str(buffer);
 }
 
 /**
@@ -110,7 +114,7 @@ char *path, char *program_path, int *status, char *fname)
 		token = strtok(NULL, ":");
 	}
 	if (program_path[0] == '\0')
-		_strcp(user_input, program_path);
+		_strcp(args[0], program_path);
 }
 
 /**
@@ -145,7 +149,7 @@ INFO *info, char **argv, char **args, char *path, char *program_path)
 			cp_commands(argv, user_input);
 		}
 		if ((user_input[0] == '\0' && !isatty(STDIN_FILENO)) || !status)
-			break;
+			continue;
 		else if (user_input[0] == '\0' && isatty(STDIN_FILENO))
 			continue;
 
