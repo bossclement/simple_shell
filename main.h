@@ -40,8 +40,7 @@ size_t _strlen(char *str);
 int _strcmp(char *org, char *cp);
 void _str_append(char *result, char *format, ...);
 void cp_environ(char **dest, char **from);
-void find_path(char *program_name,
-char *program_path, char *dir, int *status, char *fname);
+void find_path(char *program_name, char *program_path, char *dir);
 void _clear_str(char *str);
 void cp_commands(char **argv, char *dest);
 void get_arguments(char **args, char *cmd);

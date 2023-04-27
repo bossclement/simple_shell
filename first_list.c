@@ -63,12 +63,10 @@ void cp_environ(char **dest, char **from)
  * @program_name: the program to find
  * @program_path: the absolute path of the program
  * @dir: directory where to look for the program
- * @status: check if shell should run
- * @fname: program name
  */
 
 void find_path(char *program_name, char *program_path,
-char *dir, int *status, char *fname)
+char *dir)
 {
 	DIR *dirp;
 	struct dirent *dp;
@@ -81,10 +79,7 @@ char *dir, int *status, char *fname)
 
 	dirp = opendir(dir);
 	if (dirp == NULL)
-	{
-		error(1, status, fname);
 		return;
-	}
 
 	while ((dp = readdir(dirp)) != NULL)
 	{
@@ -95,8 +90,7 @@ char *dir, int *status, char *fname)
 		}
 	}
 
-	if (closedir(dirp) == -1)
-		error(1, status, fname);
+	closedir(dirp);
 }
 
 /**

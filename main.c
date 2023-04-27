@@ -3,7 +3,7 @@
 #define MAX_ARGS 100
 
 void program_path_finder(char **args, char *user_input,
-char *path, char *program_path, int *status, char *fname);
+char *path, char *program_path);
 void prepare_data(char *fname, int *status, INFO *info, int argc);
 void get_input(char *buffer, int *status, INFO *info);
 
@@ -93,12 +93,10 @@ void prepare_data(char *fname, int *status, INFO *info, int argc)
  * @user_input: command line from the user
  * @path: the PATH environment variable
  * @program_path: the absolute path of the program found
- * @status: my program run status
- * @fname: the program name
  */
 
 void program_path_finder(char **args, char *user_input,
-char *path, char *program_path, int *status, char *fname)
+char *path, char *program_path)
 {
 	char *token;
 
@@ -108,7 +106,7 @@ char *path, char *program_path, int *status, char *fname)
 	_clear_str(program_path);
 	while (token != NULL && program_path[0] == '\0')
 	{
-		find_path(args[0], program_path, token, status, fname);
+		find_path(args[0], program_path, token);
 		token = strtok(NULL, ":");
 	}
 	if (program_path[0] == '\0')
@@ -151,8 +149,7 @@ INFO *info, char **argv, char **args, char *path, char *program_path)
 		else if (user_input[0] == '\0' && isatty(STDIN_FILENO))
 			continue;
 
-		program_path_finder(args, user_input, path, program_path,
-		&status, info->fname);
+		program_path_finder(args, user_input, path, program_path);
 		if (!program_checker(program_path, &error_counts, argv, &status, args, info))
 			continue;
 		args[0] = program_path;
