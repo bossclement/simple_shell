@@ -27,7 +27,7 @@ struct APP_INFO
 {
 	char wd[1024];
 	char *fname;
-	char *envp[100];
+	char *envp[STRLEN];
 	int argc;
 	int exit_code;
 };
