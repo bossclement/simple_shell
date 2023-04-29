@@ -15,6 +15,10 @@ void print_error(char *fname, char *cmd, char *msg, int exit_code, INFO *info)
 	static int error_counts = 1;
 	char message[STRLEN];
 	size_t bytes_write;
+	int x = 0;
+
+	for (x = 0; x < STRLEN; x++)
+		message[x] = '\0';
 
 	_str_append(message, "%s: %d: %s: %s\n", fname, error_counts, cmd, msg);
 	error_counts++;
@@ -35,8 +39,11 @@ void print_error(char *fname, char *cmd, char *msg, int exit_code, INFO *info)
 
 void get_exit_code(char *str, INFO *info)
 {
-	int num = 0, i = 0;
+	int num = 0, i = 0, x;
 	char msg[STRLEN];
+	
+	for (x = 0; x < STRLEN; x++)
+		msg[x] = '\0';
 
 	if (str == NULL)
 	{
