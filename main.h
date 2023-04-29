@@ -61,6 +61,6 @@ void _getenv(char *envir, char **envirs, char *dest);
 size_t check_input(char *str);
 int is_path(char *str);
 char *_strtok(char *str, char *delim);
-size_t _getline(char *buf);
+size_t _getline(char *buf, int *status);
 
 #endif

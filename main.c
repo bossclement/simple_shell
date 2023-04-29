@@ -25,13 +25,16 @@ void get_input(char *buffer, int *status, INFO *info)
 	}
 	fflush(stdout);
 	_clear_str(buffer);
-	read = _getline(buffer);
+	read = _getline(buffer, status);
 	if (read <= 0)
 	{
 		if (isatty(STDIN_FILENO))
 			_write(STDOUT_FILENO, "\n", status, info->fname);
 		_clear_str(buffer);
 	}
+
+	if (*status == 0)
+		_strcp("exit", buffer);
 
 	if (!_strcmp("\n", buffer))
 	{
