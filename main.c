@@ -33,9 +33,6 @@ void get_input(char *buffer, int *status, INFO *info)
 		_clear_str(buffer);
 	}
 
-	if (*status == 0)
-		_strcp("exit", buffer);
-
 	if (!_strcmp("\n", buffer))
 	{
 		while (buffer[i]) /* Remove new line */
@@ -139,7 +136,6 @@ INFO *info, char **argv, char **args, char *path, char *program_path)
 			continue;
 		else if (user_input[0] == '\0' && isatty(STDIN_FILENO))
 			continue;
-		info->exit_code = 0;
 		program_path_finder(args, user_input, path, program_path);
 		if (check_built_in(args, info, &status))
 			continue;

@@ -73,6 +73,7 @@ void execute_cmd(char **args, char **environs, int *status, INFO *info)
 			break;
 
 		default:
+			info->exit_code = 0;
 			break;
 	}
 }
