@@ -110,3 +110,43 @@ char *_strtok(char *str, char *delim)
 		str++;
 	}
 }
+
+/**
+ * _getline - my custom getline
+ * @buf: buffer
+ * Return: size of string read
+ */
+
+size_t _getline(char *buf)
+{
+	static char buffer[STRLEN];
+	static size_t pos = ZERO, nread = ZERO;
+	size_t count = 0;
+
+	while (1)
+	{
+		if (pos >= nread)
+		{
+			nread = read(STDIN_FILENO, buffer, STRLEN);
+			pos = 0;
+			if (nread == 0)
+			{
+				if (isatty(STDIN_FILENO))
+					write(STDOUT_FILENO, "\n", 1);
+				exit(0);
+			}
+		}
+
+		while (pos < nread)
+		{
+			buf[count++] = buffer[pos++];
+			if (buf[count - 1] == '\n')
+				return (count);
+			if (count == STRLEN)
+			{
+				perror("read");
+				exit(EXIT_FAILURE);
+			}
+		}
+	}
+}

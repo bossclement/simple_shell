@@ -17,8 +17,6 @@ void get_input(char *buffer, int *status, INFO *info);
 void get_input(char *buffer, int *status, INFO *info)
 {
 	int i = 0;
-	char *line = NULL;
-	size_t len = 0;
 	ssize_t read;
 
 	if (isatty(STDIN_FILENO))
@@ -26,19 +24,14 @@ void get_input(char *buffer, int *status, INFO *info)
 		_write(STDOUT_FILENO, "~$ ", status, info->fname);
 	}
 	fflush(stdout);
-	read = getline(&line, &len, stdin);
 	_clear_str(buffer);
+	read = _getline(buffer);
 	if (read <= 0)
 	{
 		if (isatty(STDIN_FILENO))
 			_write(STDOUT_FILENO, "\n", status, info->fname);
 		_clear_str(buffer);
-	} else
-	{
-		_strcp(line, buffer);
 	}
-	_free(NULL, line);
-	check_input(buffer);
 
 	if (!_strcmp("\n", buffer))
 	{
@@ -51,7 +44,7 @@ void get_input(char *buffer, int *status, INFO *info)
 		buffer[_strlen(buffer)] = '\0';
 	}
 
-	if (buffer[0] == '\0' || buffer[0] == ' ' || _strcmp("exit", buffer))
+	if (_strcmp("exit", buffer))
 	{
 		_clear_str(buffer);
 		*status = 0;

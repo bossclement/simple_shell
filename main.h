@@ -13,6 +13,7 @@
 #include <signal.h>
 #include <sys/types.h>
 #define STRLEN 10000
+#define ZERO 0
 
 /**
  * struct APP_INFO - stores information
@@ -60,5 +61,6 @@ void _getenv(char *envir, char **envirs, char *dest);
 size_t check_input(char *str);
 int is_path(char *str);
 char *_strtok(char *str, char *delim);
+size_t _getline(char *buf);
 
 #endif

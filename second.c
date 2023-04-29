@@ -60,7 +60,7 @@ void execute_cmd(char **args, char **environs, int *status, INFO *info)
 		error(1, status, info->fname);
 	else if (pid == 0)
 	{
-		exec_status = execve(args[0], args, environs);
+		execve(args[0], args, environs);
 	}
 	else
 	{
