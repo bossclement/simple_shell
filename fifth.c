@@ -79,3 +79,24 @@ int check_built_in(char **args, INFO *info, int *status)
 
 	return (0);
 }
+
+/**
+ * get_commands - checks built in functions
+ * @commands: commandline arguments
+ * @command: command line
+ * Return: number
+ */
+
+void get_commands(char **commands, char *command)
+{
+	char *token;
+	int index = 0;
+
+	token = _strtok(command, ";");
+	while (token != NULL)
+	{
+		commands[index] = token;
+		token = _strtok(NULL, ";");
+		index++;
+	}
+}

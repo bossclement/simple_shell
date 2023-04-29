@@ -10,6 +10,8 @@ void _strcp(char *str, char *dest)
 {
 	size_t index = 0;
 
+	if (str == NULL || dest == NULL)
+		return;
 	while (str[index])
 	{
 		dest[index] = str[index];

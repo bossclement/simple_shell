@@ -119,12 +119,16 @@ char *path, char *program_path)
 void shell(int status, int argc, char *user_input,
 INFO *info, char **argv, char **args, char *path, char *program_path)
 {
+	char *commands[STRLEN];
+	int x;
+
 	signal(SIGINT, sigint_handler);
 	while (status)
 	{
+		for (x = 0; x < STRLEN; x++)
+			commands[x] = NULL;
 		if (argc == 1)
 		{
-			_clear_str(user_input);
 			get_input(user_input, &status, info);
 		}
 		else
@@ -136,14 +140,21 @@ INFO *info, char **argv, char **args, char *path, char *program_path)
 			continue;
 		else if (user_input[0] == '\0' && isatty(STDIN_FILENO))
 			continue;
-		program_path_finder(args, user_input, path, program_path);
-		if (check_built_in(args, info, &status))
-			continue;
-		if (!program_checker(program_path, argv, args, info))
-			continue;
-		args[0] = program_path;
-		execute_cmd(args, info->envp, &status, info); /* execute program */
-		_clear_str(program_path);
+		get_commands(commands, user_input);
+		for (x = 0; x < STRLEN; x++)
+		{
+			if (!commands[x])
+				break;
+			program_path_finder(args, commands[x], path, program_path);
+			if (check_built_in(args, info, &status))
+				continue;
+			if (!program_checker(program_path, argv, args, info))
+				continue;
+			args[0] = program_path;
+			execute_cmd(args, info->envp, &status, info); /* execute program */
+			_clear_str(program_path);
+		}
+		_clear_str(user_input);
 	}
 }
 

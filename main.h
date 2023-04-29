@@ -64,5 +64,6 @@ size_t _getline(char *buf, int *status);
 void print_error(char *fname, char *cmd, char *msg,
 int exit_code, INFO *info);
 int check_built_in(char **args, INFO *info, int *status);
+void get_commands(char **commands, char *command);
 
 #endif
