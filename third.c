@@ -65,37 +65,26 @@ void string_append(char *dest, char *org)
 /**
  * program_checker - function that appends strings
  * @program_path: absolute path of the command
- * @error_counts: file permission errors
  * @argv: arguments passed in the program
- * @status: checks if program should run
  * @args: command line arguments
  * @info: information about my shell
  * Return: number
  */
 
-int program_checker(char *program_path, int *error_counts,
-char **argv, int *status, char **args, INFO *info)
+int program_checker(char *program_path, char **argv, char **args, INFO *info)
 {
 	struct stat st;
 
 	if (!is_path(program_path)) /* not found */
 	{
 		_clear_str(program_path);
-		_str_append(program_path, "%s: %d: %s: not found\n",
-		argv[0], *error_counts, args[0]);
-		_write(STDERR_FILENO, program_path, status, info->fname);
-		(*error_counts)++;
-		info->exit_code = 127;
+		print_error(argv[0], args[0], "not found", 127, info);
 		return (0);
 	} else if ((stat(program_path, &st) == 0 &&
 	S_ISDIR(st.st_mode)) || access(program_path, X_OK) != 0)
 	{
 		_clear_str(program_path);
-		_str_append(program_path, "%s: %d: %s: Permission denied\n",
-		argv[0], *error_counts, args[0]);
-		_write(STDERR_FILENO, program_path, status, info->fname);
-		(*error_counts)++;
-		info->exit_code = 126;
+		print_error(argv[0], args[0], "Permission denied", 126, info);
 		return (0);
 	}
 	return (1);

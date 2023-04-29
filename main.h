@@ -55,12 +55,14 @@ void execute_cmd(char **args, char **environs, int *status, INFO *info);
 char *int_to_str(long int num, char *dest);
 void sigint_handler(int sig);
 void string_append(char *dest, char *org);
-int program_checker(char *program_path, int *error_counts,
-char **argv, int *status, char **args, INFO *info);
+int program_checker(char *program_path, char **argv, char **args, INFO *info);
 void _getenv(char *envir, char **envirs, char *dest);
 size_t check_input(char *str);
 int is_path(char *str);
 char *_strtok(char *str, char *delim);
 size_t _getline(char *buf, int *status);
+void print_error(char *fname, char *cmd, char *msg,
+int exit_code, INFO *info);
+int check_built_in(char **args, INFO *info, int *status);
 
 #endif

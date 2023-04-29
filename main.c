@@ -47,11 +47,7 @@ void get_input(char *buffer, int *status, INFO *info)
 		buffer[_strlen(buffer)] = '\0';
 	}
 
-	if (_strcmp("exit", buffer))
-	{
-		_clear_str(buffer);
-		*status = 0;
-	} else if (_strcmp("\n", buffer))
+	if (_strcmp("\n", buffer))
 		_clear_str(buffer);
 }
 
@@ -126,8 +122,6 @@ char *path, char *program_path)
 void shell(int status, int argc, char *user_input,
 INFO *info, char **argv, char **args, char *path, char *program_path)
 {
-	int error_counts = 1;
-
 	signal(SIGINT, sigint_handler);
 	while (status)
 	{
@@ -147,7 +141,9 @@ INFO *info, char **argv, char **args, char *path, char *program_path)
 			continue;
 		info->exit_code = 0;
 		program_path_finder(args, user_input, path, program_path);
-		if (!program_checker(program_path, &error_counts, argv, &status, args, info))
+		if (check_built_in(args, info, &status))
+			continue;
+		if (!program_checker(program_path, argv, args, info))
 			continue;
 		args[0] = program_path;
 		execute_cmd(args, info->envp, &status, info); /* execute program */
