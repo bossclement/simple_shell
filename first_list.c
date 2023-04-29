@@ -122,11 +122,11 @@ void get_arguments(char **args, char *cmd)
 	char *substr;
 	int i = 0;
 
-	substr = strtok(cmd, " ");
+	substr = _strtok(cmd, " ");
 	while (substr != NULL)
 	{
 		args[i] = substr;
-		substr = strtok(NULL, " ");
+		substr = _strtok(NULL, " ");
 		i++;
 	}
 	args[i] = NULL;

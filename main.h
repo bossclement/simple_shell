@@ -59,5 +59,6 @@ char **argv, int *status, char **args, INFO *info);
 void _getenv(char *envir, char **envirs, char *dest);
 size_t check_input(char *str);
 int is_path(char *str);
+char *_strtok(char *str, char *delim);
 
 #endif

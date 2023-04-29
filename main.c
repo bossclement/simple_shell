@@ -103,12 +103,12 @@ char *path, char *program_path)
 
 	get_arguments(args, user_input);
 	_getenv("PATH=", environ, path);
-	token = strtok(path, ":");
+	token = _strtok(path, ":");
 	_clear_str(program_path);
 	while (token != NULL && program_path[0] == '\0')
 	{
 		find_path(args[0], program_path, token);
-		token = strtok(NULL, ":");
+		token = _strtok(NULL, ":");
 	}
 	if (program_path[0] == '\0')
 		_strcp(args[0], program_path);
